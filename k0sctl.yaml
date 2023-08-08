@@ -9,7 +9,7 @@ spec:
       user: agarces
       port: 22
       keyPath: /home/$USER/.ssh/id_rsa
-    role: controller+worker
+    role: single
   k0s:
     version: 1.27.4+k0s.0
     dynamicConfig: true
