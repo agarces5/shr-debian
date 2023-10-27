@@ -1,0 +1,44 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: http-redirect-https
+  namespace: inventario
+spec:
+  redirectScheme:
+    scheme: https
+    port: "443"
+    permanent: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: glpi
+  namespace: inventario
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`tickets.senator.tools`)
+      kind: Rule
+      middlewares:
+        - name: http-redirect-https
+      services:
+        - name: glpi-service
+          port: 80
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: glpi-secure
+  namespace: inventario
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`tickets.senator.tools`)
+      kind: Rule
+      services:
+        - name: glpi-service
+          port: 80
+  tls:
+    certResolver: letsencrypt

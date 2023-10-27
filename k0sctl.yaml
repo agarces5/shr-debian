@@ -20,8 +20,12 @@ spec:
         name: k0s
       spec:
         api:
+          address: 195.248.231.236
           k0sApiPort: 9443
           port: 6443
+          externalAddress: 195.248.231.236
+          sans:
+            - 195.248.231.236
         installConfig:
           users:
             etcdUser: etcd
@@ -53,7 +57,3 @@ spec:
         extensions:
           storage:
             type: openebs_local_storage
-          helm:
-            charts: null
-            concurrencyLevel: 5
-            repositories: null

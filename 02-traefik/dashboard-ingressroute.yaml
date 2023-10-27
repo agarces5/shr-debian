@@ -1,0 +1,35 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dashboard
+  namespace: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`dashboard.senatorkube.com`)
+      kind: Rule
+      middlewares:
+        - name: dashboard-basic-auth
+      services:
+        - name: api@internal
+          kind: TraefikService
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: dashboard-basic-auth
+  namespace: traefik
+spec:
+  basicAuth:
+    secret: authsecret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: authsecret
+  namespace: traefik
+data:
+  users: |
+    YWdhcmNlczokYXByMSRWbnQ4RjBKLiRMLnlRTFdsQklWVTlsdHAzU1BObDQwCgo=
+---

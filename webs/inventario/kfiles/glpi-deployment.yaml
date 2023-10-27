@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: glpi-deployment
+  namespace: inventario
+spec:
+  replicas: 1
+  serviceName: glpi-service
+  selector:
+    matchLabels:
+      app: glpi
+  template:
+    metadata:
+      labels:
+        app: glpi
+    spec:
+      containers:
+        - name: glpi
+          image: diouxx/glpi
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: glpi-data
+              mountPath: /etc/timezone
+              readOnly: true
+              subPath: timezone
+            - name: glpi-data
+              mountPath: /etc/localtime
+              readOnly: true
+              subPath: localtime
+            - name: glpi-data
+              mountPath: /var/www/html/glpi
+              subPath: glpi
+      volumes:
+        - name: glpi-data
+          persistentVolumeClaim:
+            claimName: pvc-glpi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: glpi-service
+  namespace: inventario
+spec:
+  selector:
+    app: glpi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

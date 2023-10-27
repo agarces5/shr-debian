@@ -1,0 +1,1477 @@
+analytics:
+  enabled: true
+  pingInterval: 24h
+apiserver:
+  affinity: {}
+  enabled: true
+  healthCheck:
+    initialDelaySeconds: 30
+    periodSeconds: 60
+  image: openebs/m-apiserver
+  imageTag: 2.12.2
+  nodeSelector: {}
+  ports:
+    externalPort: 5656
+    internalPort: 5656
+  replicas: 1
+  resources: {}
+  sparse:
+    enabled: "false"
+  tolerations: []
+cleanup:
+  image:
+    imagePullSecrets: []
+    registry: null
+    repository: bitnami/kubectl
+    tag: null
+crd:
+  enableInstall: true
+cstor:
+  admissionServer:
+    annotations: {}
+    componentName: cstor-admission-webhook
+    failurePolicy: Fail
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/cstor-webhook
+      tag: 3.3.0
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels: {}
+    resources: {}
+    securityContext: {}
+    tolerations: []
+  analytics:
+    enabled: true
+    pingInterval: 24h
+  cleanup:
+    image:
+      registry: null
+      repository: bitnami/kubectl
+      tag: null
+  csiController:
+    annotations: {}
+    attacher:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-attacher
+        tag: v3.1.0
+      name: csi-attacher
+    componentName: openebs-cstor-csi-controller
+    logLevel: "5"
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels: {}
+    priorityClass:
+      create: true
+      name: cstor-csi-controller-critical
+      value: 900000000
+    provisioner:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-provisioner
+        tag: v3.0.0
+      name: csi-provisioner
+    resizer:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-resizer
+        tag: v1.2.0
+      name: csi-resizer
+    resources: {}
+    securityContext: {}
+    snapshotController:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/snapshot-controller
+        tag: v3.0.3
+      name: snapshot-controller
+    snapshotter:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-snapshotter
+        tag: v3.0.3
+      name: csi-snapshotter
+    tolerations: []
+  csiDriver:
+    attachRequired: false
+    create: true
+    podInfoOnMount: true
+  csiNode:
+    annotations: {}
+    componentName: openebs-cstor-csi-node
+    driverRegistrar:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-node-driver-registrar
+        tag: v2.3.0
+      name: csi-node-driver-registrar
+    kubeletDir: /var/lib/kubelet/
+    logLevel: "5"
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels: {}
+    priorityClass:
+      create: true
+      name: cstor-csi-node-critical
+      value: 900001000
+    resources: {}
+    securityContext: {}
+    tolerations: []
+    updateStrategy:
+      type: RollingUpdate
+  cspcOperator:
+    annotations: {}
+    baseDir: /var/openebs
+    componentName: cspc-operator
+    cstorPool:
+      image:
+        registry: null
+        repository: openebs/cstor-pool
+        tag: 3.3.0
+    cstorPoolExporter:
+      image:
+        registry: null
+        repository: openebs/m-exporter
+        tag: 3.3.0
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/cspc-operator
+      tag: 3.3.0
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels: {}
+    poolManager:
+      image:
+        registry: null
+        repository: openebs/cstor-pool-manager
+        tag: 3.3.0
+    resources: {}
+    resyncInterval: "30"
+    securityContext: {}
+    sparseDir: /var/openebs/sparse
+    tolerations: []
+  cstorCSIPlugin:
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/cstor-csi-driver
+      tag: 3.3.0
+    name: cstor-csi-plugin
+    remount: "true"
+  cvcOperator:
+    annotations: {}
+    baseDir: /var/openebs
+    componentName: cvc-operator
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/cvc-operator
+      tag: 3.3.0
+    logLevel: "2"
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels: {}
+    resources: {}
+    resyncInterval: "30"
+    securityContext: {}
+    target:
+      image:
+        registry: null
+        repository: openebs/cstor-istgt
+        tag: 3.3.0
+    tolerations: []
+    volumeExporter:
+      image:
+        registry: null
+        repository: openebs/m-exporter
+        tag: 3.3.0
+    volumeMgmt:
+      image:
+        registry: null
+        repository: openebs/cstor-volume-manager
+        tag: 3.3.0
+  enabled: false
+  global: {}
+  imagePullSecrets: null
+  openebs-ndm:
+    crd:
+      enableInstall: false
+    featureGates:
+      APIService:
+        address: 0.0.0.0:9115
+        enabled: false
+        featureGateFlag: APIService
+      ChangeDetection:
+        enabled: false
+        featureGateFlag: ChangeDetection
+      GPTBasedUUID:
+        enabled: true
+        featureGateFlag: GPTBasedUUID
+      PartitionTableUUID:
+        enabled: false
+        featureGateFlag: PartitionTableUUID
+      UseOSDisk:
+        enabled: false
+        featureGateFlag: UseOSDisk
+      enabled: true
+    global: {}
+    helperPod:
+      image:
+        pullPolicy: IfNotPresent
+        registry: ""
+        repository: openebs/linux-utils
+        tag: 3.3.0
+    imagePullSecrets: null
+    ndm:
+      annotations: {}
+      componentName: ndm
+      enabled: true
+      filters:
+        enableOsDiskExcludeFilter: true
+        enablePathFilter: true
+        enableVendorFilter: true
+        excludePaths: loop,fd0,sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd
+        excludeVendors: CLOUDBYT,OpenEBS
+        includePaths: ""
+        osDiskExcludePaths: /,/etc/hosts,/boot
+      healthCheck:
+        initialDelaySeconds: 30
+        periodSeconds: 60
+      image:
+        pullPolicy: IfNotPresent
+        registry: null
+        repository: openebs/node-disk-manager
+        tag: 2.0.0
+      metaConfig:
+        deviceLabelTypes: ""
+        nodeLabelPattern: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podLabels:
+        name: openebs-ndm
+      probes:
+        enableSeachest: false
+        enableSmartProbe: true
+        enableUdevProbe: true
+      resources: {}
+      securityContext: {}
+      sparse:
+        count: "0"
+        path: /var/openebs/sparse
+        size: "10737418240"
+      tolerations: []
+      updateStrategy:
+        type: RollingUpdate
+    ndmExporter:
+      clusterExporter:
+        metricsPort: 9100
+        name: cluster-exporter
+        nodeSelector: {}
+        podLabels:
+          name: openebs-ndm-cluster-exporter
+        tolerations: []
+      enabled: false
+      image:
+        pullPolicy: IfNotPresent
+        registry: null
+        repository: openebs/node-disk-exporter
+        tag: 2.0.0
+      nodeExporter:
+        metricsPort: 9101
+        name: node-exporter
+        nodeSelector: {}
+        podLabels:
+          name: openebs-ndm-node-exporter
+        tolerations: []
+    ndmOperator:
+      annotations: {}
+      enabled: true
+      healthCheck:
+        initialDelaySeconds: 15
+        periodSeconds: 20
+      image:
+        pullPolicy: IfNotPresent
+        registry: null
+        repository: openebs/node-disk-operator
+        tag: 2.0.0
+      name: operator
+      nodeSelector: {}
+      podAnnotations: {}
+      podLabels:
+        name: openebs-ndm-operator
+      readinessCheck:
+        initialDelaySeconds: 5
+        periodSeconds: 10
+      replicas: 1
+      resources: {}
+      securityContext: {}
+      tolerations: []
+      upgradeStrategy: Recreate
+    release:
+      version: 2.0.0
+    serviceAccount:
+      create: true
+      name: openebs-ndm
+    varDirectoryPath:
+      baseDir: /var/openebs
+  openebsNDM:
+    enabled: false
+  pool:
+    image: openebs/cstor-pool
+    imageTag: 2.12.2
+  poolMgmt:
+    image: openebs/cstor-pool-mgmt
+    imageTag: 2.12.2
+  rbac:
+    create: true
+    pspEnabled: false
+  release:
+    version: 3.3.0
+  serviceAccount:
+    annotations: {}
+    csiController:
+      create: true
+      name: openebs-cstor-csi-controller-sa
+    csiNode:
+      create: true
+      name: openebs-cstor-csi-node-sa
+    cstorOperator:
+      create: true
+      name: openebs-cstor-operator
+  target:
+    image: openebs/cstor-istgt
+    imageTag: 2.12.2
+  volumeMgmt:
+    image: openebs/cstor-volume-mgmt
+    imageTag: 2.12.2
+defaultStorageConfig:
+  enabled: "true"
+featureGates:
+  APIService:
+    address: 0.0.0.0:9115
+    enabled: false
+    featureGateFlag: APIService
+  ChangeDetection:
+    enabled: false
+    featureGateFlag: ChangeDetection
+  GPTBasedUUID:
+    enabled: true
+    featureGateFlag: GPTBasedUUID
+  PartitionTableUUID:
+    enabled: false
+    featureGateFlag: PartitionTableUUID
+  UseOSDisk:
+    enabled: false
+    featureGateFlag: UseOSDisk
+  enabled: true
+helper:
+  image: openebs/linux-utils
+  imageTag: 3.2.0
+image:
+  pullPolicy: IfNotPresent
+  repository: ""
+imagePullSecrets: []
+jiva:
+  analytics:
+    enabled: true
+    pingInterval: 24h
+  csiController:
+    annotations: {}
+    attacher:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-attacher
+        tag: v3.1.0
+      name: csi-attacher
+    componentName: openebs-jiva-csi-controller
+    livenessprobe:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/livenessprobe
+        tag: v2.3.0
+      name: liveness-probe
+    logLevel: "5"
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels: {}
+    priorityClass:
+      create: true
+      name: jiva-csi-controller-critical
+      value: 900000000
+    provisioner:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-provisioner
+        tag: v3.0.0
+      name: csi-provisioner
+    resizer:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-resizer
+        tag: v1.2.0
+      name: csi-resizer
+    resources: {}
+    securityContext: {}
+    tolerations: []
+  csiDriver:
+    attachRequired: false
+    create: true
+    podInfoOnMount: true
+  csiNode:
+    annotations: {}
+    componentName: openebs-jiva-csi-node
+    driverRegistrar:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-node-driver-registrar
+        tag: v2.3.0
+      name: csi-node-driver-registrar
+    kubeletDir: /var/lib/kubelet/
+    livenessprobe:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/livenessprobe
+        tag: v2.3.0
+      name: liveness-probe
+    logLevel: "5"
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels: {}
+    priorityClass:
+      create: true
+      name: jiva-csi-node-critical
+      value: 900001000
+    resources: {}
+    securityContext: {}
+    tolerations: []
+    updateStrategy:
+      type: RollingUpdate
+  defaultPolicy:
+    enabled: true
+    name: openebs-jiva-default-policy
+    replicaSC: openebs-hostpath
+    replicas: 3
+  defaultStoragePath: /var/openebs
+  enabled: false
+  global: {}
+  image: openebs/jiva
+  imagePullSecrets: null
+  imageTag: 2.12.2
+  jivaCSIPlugin:
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/jiva-csi
+      tag: 3.3.0
+    name: jiva-csi-plugin
+    remount: "true"
+  jivaOperator:
+    annotations: {}
+    componentName: jiva-operator
+    controller:
+      image:
+        registry: null
+        repository: openebs/jiva
+        tag: 3.3.0
+    exporter:
+      image:
+        registry: null
+        repository: openebs/m-exporter
+        tag: 3.3.0
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/jiva-operator
+      tag: 3.3.0
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels: {}
+    replica:
+      image:
+        registry: null
+        repository: openebs/jiva
+        tag: 3.3.0
+    resources: {}
+    resyncInterval: "30"
+    securityContext: {}
+    tolerations: []
+  localpv-provisioner:
+    analytics:
+      enabled: true
+      pingInterval: 24h
+    deviceClass:
+      blockDeviceSelectors: {}
+      enabled: false
+      fsType: ext4
+      isDefaultClass: false
+      name: openebs-device
+      nodeAffinityLabels: []
+      reclaimPolicy: Delete
+    fullnameOverride: ""
+    global: {}
+    helperPod:
+      image:
+        pullPolicy: IfNotPresent
+        registry: ""
+        repository: openebs/linux-utils
+        tag: 3.3.0
+    hostpathClass:
+      basePath: ""
+      enabled: true
+      ext4Quota:
+        enabled: false
+        hardLimitGrace: 0%
+        softLimitGrace: 0%
+      isDefaultClass: false
+      name: openebs-hostpath
+      nodeAffinityLabels: []
+      reclaimPolicy: Delete
+      xfsQuota:
+        enabled: false
+        hardLimitGrace: 0%
+        softLimitGrace: 0%
+    imagePullSecrets: null
+    localpv:
+      affinity: {}
+      annotations: {}
+      basePath: /var/openebs/local
+      enableLeaderElection: true
+      enabled: true
+      healthCheck:
+        initialDelaySeconds: 30
+        periodSeconds: 60
+      image:
+        pullPolicy: IfNotPresent
+        registry: null
+        repository: openebs/provisioner-localpv
+        tag: 3.3.0
+      name: localpv-provisioner
+      nodeSelector: {}
+      podAnnotations: {}
+      podLabels:
+        name: openebs-localpv-provisioner
+      privileged: true
+      replicas: 1
+      resources: null
+      securityContext: {}
+      tolerations: []
+      updateStrategy:
+        type: RollingUpdate
+      waitForBDBindTimeoutRetryCount: "12"
+    nameOverride: ""
+    openebs-ndm:
+      crd:
+        enableInstall: false
+      featureGates:
+        APIService:
+          address: 0.0.0.0:9115
+          enabled: false
+          featureGateFlag: APIService
+        ChangeDetection:
+          enabled: false
+          featureGateFlag: ChangeDetection
+        GPTBasedUUID:
+          enabled: true
+          featureGateFlag: GPTBasedUUID
+        PartitionTableUUID:
+          enabled: false
+          featureGateFlag: PartitionTableUUID
+        UseOSDisk:
+          enabled: false
+          featureGateFlag: UseOSDisk
+        enabled: true
+      global: {}
+      helperPod:
+        image:
+          pullPolicy: IfNotPresent
+          registry: ""
+          repository: openebs/linux-utils
+          tag: 3.3.0
+      imagePullSecrets: null
+      ndm:
+        annotations: {}
+        componentName: ndm
+        enabled: true
+        filters:
+          enableOsDiskExcludeFilter: true
+          enablePathFilter: true
+          enableVendorFilter: true
+          excludePaths: loop,fd0,sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd
+          excludeVendors: CLOUDBYT,OpenEBS
+          includePaths: ""
+          osDiskExcludePaths: /,/etc/hosts,/boot
+        healthCheck:
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        image:
+          pullPolicy: IfNotPresent
+          registry: null
+          repository: openebs/node-disk-manager
+          tag: 2.0.0
+        metaConfig:
+          deviceLabelTypes: ""
+          nodeLabelPattern: ""
+        nodeSelector: {}
+        podAnnotations: {}
+        podLabels:
+          name: openebs-ndm
+        probes:
+          enableSeachest: false
+          enableSmartProbe: true
+          enableUdevProbe: true
+        resources: {}
+        securityContext: {}
+        sparse:
+          count: "0"
+          path: /var/openebs/sparse
+          size: "10737418240"
+        tolerations: []
+        updateStrategy:
+          type: RollingUpdate
+      ndmExporter:
+        clusterExporter:
+          metricsPort: 9100
+          name: cluster-exporter
+          nodeSelector: {}
+          podLabels:
+            name: openebs-ndm-cluster-exporter
+          tolerations: []
+        enabled: false
+        image:
+          pullPolicy: IfNotPresent
+          registry: null
+          repository: openebs/node-disk-exporter
+          tag: 2.0.0
+        nodeExporter:
+          metricsPort: 9101
+          name: node-exporter
+          nodeSelector: {}
+          podLabels:
+            name: openebs-ndm-node-exporter
+          tolerations: []
+      ndmOperator:
+        annotations: {}
+        enabled: true
+        healthCheck:
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        image:
+          pullPolicy: IfNotPresent
+          registry: null
+          repository: openebs/node-disk-operator
+          tag: 2.0.0
+        name: operator
+        nodeSelector: {}
+        podAnnotations: {}
+        podLabels:
+          name: openebs-ndm-operator
+        readinessCheck:
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        replicas: 1
+        resources: {}
+        securityContext: {}
+        tolerations: []
+        upgradeStrategy: Recreate
+      release:
+        version: 2.0.0
+      serviceAccount:
+        create: true
+        name: openebs-ndm
+      varDirectoryPath:
+        baseDir: /var/openebs
+    openebsNDM:
+      enabled: false
+    podSecurityContext: {}
+    rbac:
+      create: true
+      pspEnabled: false
+    release:
+      version: 3.3.0
+    serviceAccount:
+      annotations: {}
+      create: true
+      name: null
+  openebsLocalpv:
+    enabled: false
+  rbac:
+    create: true
+    pspEnabled: false
+  release:
+    version: 3.3.0
+  replicas: 3
+  serviceAccount:
+    annotations: {}
+    csiController:
+      create: true
+      name: openebs-jiva-csi-controller-sa
+    csiNode:
+      create: true
+      name: openebs-jiva-csi-node-sa
+    jivaOperator:
+      create: true
+      name: openebs-jiva-operator
+  storageClass:
+    allowVolumeExpansion: true
+    enabled: true
+    isDefaultClass: false
+    name: openebs-jiva-csi-default
+    reclaimPolicy: Delete
+legacy:
+  enabled: false
+localprovisioner:
+  affinity: {}
+  basePath: /var/openebs/local
+  deviceClass:
+    blockDeviceSelectors: {}
+    enabled: true
+    fsType: ext4
+    isDefaultClass: false
+    name: openebs-device
+    nodeAffinityLabels: []
+    reclaimPolicy: Delete
+  enableDeviceClass: true
+  enableHostpathClass: true
+  enableLeaderElection: true
+  enabled: true
+  healthCheck:
+    initialDelaySeconds: 30
+    periodSeconds: 60
+  hostpathClass:
+    basePath: ""
+    enabled: true
+    ext4Quota:
+      enabled: false
+      hardLimitGrace: 0%
+      softLimitGrace: 0%
+    isDefaultClass: false
+    name: openebs-hostpath
+    nodeAffinityLabels: []
+    reclaimPolicy: Delete
+    xfsQuota:
+      enabled: false
+      hardLimitGrace: 0%
+      softLimitGrace: 0%
+  image: openebs/provisioner-localpv
+  imageTag: 3.2.0
+  nodeSelector: {}
+  replicas: 1
+  resources: {}
+  tolerations: []
+  waitForBDBindTimeoutRetryCount: "12"
+localpv-provisioner:
+  analytics:
+    enabled: true
+    pingInterval: 24h
+  deviceClass:
+    blockDeviceSelectors: {}
+    enabled: true
+    fsType: ext4
+    isDefaultClass: false
+    name: openebs-device
+    nodeAffinityLabels: []
+    reclaimPolicy: Delete
+  enabled: false
+  fullnameOverride: ""
+  global: {}
+  helperPod:
+    image:
+      pullPolicy: IfNotPresent
+      registry: ""
+      repository: openebs/linux-utils
+      tag: 3.3.0
+  hostpathClass:
+    basePath: ""
+    enabled: true
+    ext4Quota:
+      enabled: false
+      hardLimitGrace: 0%
+      softLimitGrace: 0%
+    isDefaultClass: false
+    name: openebs-hostpath
+    nodeAffinityLabels: []
+    reclaimPolicy: Delete
+    xfsQuota:
+      enabled: false
+      hardLimitGrace: 0%
+      softLimitGrace: 0%
+  imagePullSecrets: null
+  localpv:
+    affinity: {}
+    annotations: {}
+    basePath: /var/openebs/local
+    enableLeaderElection: true
+    enabled: true
+    healthCheck:
+      initialDelaySeconds: 30
+      periodSeconds: 60
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/provisioner-localpv
+      tag: 3.3.0
+    name: localpv-provisioner
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels:
+      name: openebs-localpv-provisioner
+    privileged: true
+    replicas: 1
+    resources: null
+    securityContext: {}
+    tolerations: []
+    updateStrategy:
+      type: RollingUpdate
+    waitForBDBindTimeoutRetryCount: "12"
+  nameOverride: ""
+  openebs-ndm:
+    crd:
+      enableInstall: false
+    featureGates:
+      APIService:
+        address: 0.0.0.0:9115
+        enabled: false
+        featureGateFlag: APIService
+      ChangeDetection:
+        enabled: false
+        featureGateFlag: ChangeDetection
+      GPTBasedUUID:
+        enabled: true
+        featureGateFlag: GPTBasedUUID
+      PartitionTableUUID:
+        enabled: false
+        featureGateFlag: PartitionTableUUID
+      UseOSDisk:
+        enabled: false
+        featureGateFlag: UseOSDisk
+      enabled: true
+    global: {}
+    helperPod:
+      image:
+        pullPolicy: IfNotPresent
+        registry: ""
+        repository: openebs/linux-utils
+        tag: 3.3.0
+    imagePullSecrets: null
+    ndm:
+      annotations: {}
+      componentName: ndm
+      enabled: true
+      filters:
+        enableOsDiskExcludeFilter: true
+        enablePathFilter: true
+        enableVendorFilter: true
+        excludePaths: loop,fd0,sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd
+        excludeVendors: CLOUDBYT,OpenEBS
+        includePaths: ""
+        osDiskExcludePaths: /,/etc/hosts,/boot
+      healthCheck:
+        initialDelaySeconds: 30
+        periodSeconds: 60
+      image:
+        pullPolicy: IfNotPresent
+        registry: null
+        repository: openebs/node-disk-manager
+        tag: 2.0.0
+      metaConfig:
+        deviceLabelTypes: ""
+        nodeLabelPattern: ""
+      nodeSelector: {}
+      podAnnotations: {}
+      podLabels:
+        name: openebs-ndm
+      probes:
+        enableSeachest: false
+        enableSmartProbe: true
+        enableUdevProbe: true
+      resources: {}
+      securityContext: {}
+      sparse:
+        count: "0"
+        path: /var/openebs/sparse
+        size: "10737418240"
+      tolerations: []
+      updateStrategy:
+        type: RollingUpdate
+    ndmExporter:
+      clusterExporter:
+        metricsPort: 9100
+        name: cluster-exporter
+        nodeSelector: {}
+        podLabels:
+          name: openebs-ndm-cluster-exporter
+        tolerations: []
+      enabled: false
+      image:
+        pullPolicy: IfNotPresent
+        registry: null
+        repository: openebs/node-disk-exporter
+        tag: 2.0.0
+      nodeExporter:
+        metricsPort: 9101
+        name: node-exporter
+        nodeSelector: {}
+        podLabels:
+          name: openebs-ndm-node-exporter
+        tolerations: []
+    ndmOperator:
+      annotations: {}
+      enabled: true
+      healthCheck:
+        initialDelaySeconds: 15
+        periodSeconds: 20
+      image:
+        pullPolicy: IfNotPresent
+        registry: null
+        repository: openebs/node-disk-operator
+        tag: 2.0.0
+      name: operator
+      nodeSelector: {}
+      podAnnotations: {}
+      podLabels:
+        name: openebs-ndm-operator
+      readinessCheck:
+        initialDelaySeconds: 5
+        periodSeconds: 10
+      replicas: 1
+      resources: {}
+      securityContext: {}
+      tolerations: []
+      upgradeStrategy: Recreate
+    release:
+      version: 2.0.0
+    serviceAccount:
+      create: true
+      name: openebs-ndm
+    varDirectoryPath:
+      baseDir: /var/openebs
+  openebsNDM:
+    enabled: false
+  podSecurityContext: {}
+  rbac:
+    create: true
+    pspEnabled: false
+  release:
+    version: 3.3.0
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: null
+lvm-localpv:
+  analytics:
+    enabled: true
+  crd:
+    enableInstall: true
+  enabled: false
+  global: {}
+  imagePullSecrets: null
+  lvmController:
+    annotations: {}
+    componentName: openebs-lvm-controller
+    logLevel: 5
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels:
+      name: openebs-lvm-controller
+    priorityClass:
+      create: true
+      name: lvm-localpv-csi-controller-critical
+    provisioner:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-provisioner
+        tag: v3.0.0
+      name: csi-provisioner
+    replicas: 1
+    resizer:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-resizer
+        tag: v1.2.0
+      name: csi-resizer
+    resources: {}
+    securityContext: {}
+    serviceName: openebs-lvm
+    snapshotController:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/snapshot-controller
+        tag: v4.0.0
+      name: snapshot-controller
+    snapshotter:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-snapshotter
+        tag: v4.0.0
+      name: csi-snapshotter
+    tolerations: []
+    updateStrategy:
+      type: RollingUpdate
+  lvmNode:
+    annotations: {}
+    componentName: openebs-lvm-node
+    driverRegistrar:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-node-driver-registrar
+        tag: v2.3.0
+      name: csi-node-driver-registrar
+    kubeletDir: /var/lib/kubelet/
+    labels: {}
+    logLevel: 5
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels:
+      app: openebs-lvm-node
+    priorityClass:
+      create: true
+      name: lvm-localpv-csi-node-critical
+    resources: {}
+    securityContext: {}
+    tolerations: []
+    updateStrategy:
+      type: RollingUpdate
+  lvmPlugin:
+    allowedTopologies: kubernetes.io/hostname,
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/lvm-driver
+      tag: 1.0.0
+    ioLimits:
+      containerRuntime: containerd
+      enabled: false
+      readIopsPerGB: ""
+      writeIopsPerGB: ""
+    metricsPort: 9500
+    name: openebs-lvm-plugin
+  rbac:
+    pspEnabled: false
+  release:
+    version: 1.0.0
+  role: openebs-lvm
+  serviceAccount:
+    lvmController:
+      create: true
+      name: openebs-lvm-controller-sa
+    lvmNode:
+      create: true
+      name: openebs-lvm-node-sa
+  storageCapacity: true
+ndm:
+  enabled: true
+  filters:
+    enableOsDiskExcludeFilter: true
+    enablePathFilter: true
+    enableVendorFilter: true
+    excludePaths: /dev/loop,/dev/fd0,/dev/sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd
+    excludeVendors: CLOUDBYT,OpenEBS
+    includePaths: ""
+    osDiskExcludePaths: /,/etc/hosts,/boot
+  healthCheck:
+    initialDelaySeconds: 30
+    periodSeconds: 60
+  image: openebs/node-disk-manager
+  imageTag: 1.9.0
+  nodeSelector: {}
+  probes:
+    enableSeachest: false
+  resources: {}
+  sparse:
+    count: "0"
+    path: /var/openebs/sparse
+    size: "10737418240"
+  tolerations: []
+ndmExporter:
+  clusterExporter:
+    metricsPort: 9100
+    name: ndm-cluster-exporter
+    podLabels:
+      name: openebs-ndm-cluster-exporter
+  enabled: false
+  image:
+    pullPolicy: IfNotPresent
+    registry: null
+    repository: openebs/node-disk-exporter
+    tag: 1.9.0
+  nodeExporter:
+    metricsPort: 9101
+    name: ndm-node-exporter
+    podLabels:
+      name: openebs-ndm-node-exporter
+ndmOperator:
+  enabled: true
+  healthCheck:
+    initialDelaySeconds: 15
+    periodSeconds: 20
+  image: openebs/node-disk-operator
+  imageTag: 1.9.0
+  nodeSelector: {}
+  readinessCheck:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  replicas: 1
+  resources: {}
+  tolerations: []
+  upgradeStrategy: Recreate
+nfs-provisioner:
+  analytics:
+    enabled: "true"
+  enabled: false
+  fullnameOverride: ""
+  global: {}
+  imagePullSecrets: null
+  nameOverride: ""
+  nfsProvisioner:
+    affinity: {}
+    annotations: {}
+    enableLeaderElection: "true"
+    enabled: true
+    healthCheck:
+      initialDelaySeconds: 30
+      periodSeconds: 60
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/provisioner-nfs
+      tag: null
+    name: nfs-provisioner
+    nfsHookConfigMap: ""
+    nfsServerAlpineImage:
+      registry: null
+      repository: openebs/nfs-server-alpine
+      tag: null
+    nodeSelector: {}
+    podLabels:
+      name: openebs-nfs-provisioner
+    privileged: true
+    resources: null
+    tolerations: []
+  nfsServer:
+    imagePullSecret: ""
+    useClusterIP: "true"
+  nfsStorageClass:
+    backendStorageClass: ""
+    customServerConfig: ""
+    filePermissions: {}
+    graceTime: null
+    isDefaultClass: false
+    leaseTime: null
+    name: openebs-kernel-nfs
+    nfsServerResources: {}
+    nfsServerType: kernel
+    reclaimPolicy: Delete
+  podSecurityContext: {}
+  rbac:
+    create: true
+    pspEnabled: false
+  serviceAccount:
+    annotations: {}
+    create: true
+    name: null
+openebs-ndm:
+  crd:
+    enableInstall: false
+  enabled: false
+  featureGates:
+    APIService:
+      address: 0.0.0.0:9115
+      enabled: false
+      featureGateFlag: APIService
+    ChangeDetection:
+      enabled: false
+      featureGateFlag: ChangeDetection
+    GPTBasedUUID:
+      enabled: true
+      featureGateFlag: GPTBasedUUID
+    PartitionTableUUID:
+      enabled: false
+      featureGateFlag: PartitionTableUUID
+    UseOSDisk:
+      enabled: false
+      featureGateFlag: UseOSDisk
+    enabled: true
+  global: {}
+  helperPod:
+    image:
+      pullPolicy: IfNotPresent
+      registry: ""
+      repository: openebs/linux-utils
+      tag: 3.3.0
+  imagePullSecrets: null
+  ndm:
+    annotations: {}
+    componentName: ndm
+    enabled: true
+    filters:
+      enableOsDiskExcludeFilter: true
+      enablePathFilter: true
+      enableVendorFilter: true
+      excludePaths: loop,fd0,sr0,/dev/ram,/dev/dm-,/dev/md,/dev/rbd,/dev/zd
+      excludeVendors: CLOUDBYT,OpenEBS
+      includePaths: ""
+      osDiskExcludePaths: /,/etc/hosts,/boot
+    healthCheck:
+      initialDelaySeconds: 30
+      periodSeconds: 60
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/node-disk-manager
+      tag: 2.0.0
+    metaConfig:
+      deviceLabelTypes: ""
+      nodeLabelPattern: ""
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels:
+      name: openebs-ndm
+    probes:
+      enableSeachest: false
+      enableSmartProbe: true
+      enableUdevProbe: true
+    resources: {}
+    securityContext: {}
+    sparse:
+      count: "0"
+      path: /var/openebs/sparse
+      size: "10737418240"
+    tolerations: []
+    updateStrategy:
+      type: RollingUpdate
+  ndmExporter:
+    clusterExporter:
+      metricsPort: 9100
+      name: cluster-exporter
+      nodeSelector: {}
+      podLabels:
+        name: openebs-ndm-cluster-exporter
+      tolerations: []
+    enabled: false
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/node-disk-exporter
+      tag: 2.0.0
+    nodeExporter:
+      metricsPort: 9101
+      name: node-exporter
+      nodeSelector: {}
+      podLabels:
+        name: openebs-ndm-node-exporter
+      tolerations: []
+  ndmOperator:
+    annotations: {}
+    enabled: true
+    healthCheck:
+      initialDelaySeconds: 15
+      periodSeconds: 20
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/node-disk-operator
+      tag: 2.0.0
+    name: operator
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels:
+      name: openebs-ndm-operator
+    readinessCheck:
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    replicas: 1
+    resources: {}
+    securityContext: {}
+    tolerations: []
+    upgradeStrategy: Recreate
+  release:
+    version: 2.0.0
+  serviceAccount:
+    create: true
+    name: openebs-ndm
+  varDirectoryPath:
+    baseDir: /var/openebs
+policies:
+  monitoring:
+    enabled: true
+    image: openebs/m-exporter
+    imageTag: 2.12.2
+provisioner:
+  affinity: {}
+  enableLeaderElection: true
+  enabled: true
+  healthCheck:
+    initialDelaySeconds: 30
+    periodSeconds: 60
+  image: openebs/openebs-k8s-provisioner
+  imageTag: 2.12.2
+  nodeSelector: {}
+  patchJivaNodeAffinity: enabled
+  replicas: 1
+  resources: {}
+  tolerations: []
+rbac:
+  create: true
+  kyvernoEnabled: false
+  pspEnabled: false
+release:
+  version: 3.2.0
+serviceAccount:
+  create: true
+  name: null
+snapshotOperator:
+  affinity: {}
+  controller:
+    image: openebs/snapshot-controller
+    imageTag: 2.12.2
+    resources: {}
+  enableLeaderElection: true
+  enabled: true
+  healthCheck:
+    initialDelaySeconds: 30
+    periodSeconds: 60
+  nodeSelector: {}
+  provisioner:
+    image: openebs/snapshot-provisioner
+    imageTag: 2.12.2
+    resources: {}
+  replicas: 1
+  tolerations: []
+  upgradeStrategy: Recreate
+varDirectoryPath:
+  baseDir: /var/openebs
+webhook:
+  affinity: {}
+  enabled: true
+  failurePolicy: Fail
+  healthCheck:
+    initialDelaySeconds: 30
+    periodSeconds: 60
+  hostNetwork: false
+  image: openebs/admission-server
+  imageTag: 2.12.2
+  nodeSelector: {}
+  replicas: 1
+  resources: {}
+  tolerations: []
+zfs-localpv:
+  analytics:
+    enabled: true
+  crd:
+    enableInstall: true
+  enabled: false
+  feature:
+    storageCapacity: true
+  global: {}
+  imagePullSecrets: null
+  rbac:
+    pspEnabled: false
+  release:
+    version: 2.1.0
+  role: openebs-zfs
+  serviceAccount:
+    zfsController:
+      create: true
+      name: openebs-zfs-controller-sa
+    zfsNode:
+      create: true
+      name: openebs-zfs-node-sa
+  zfs:
+    bin: zfs
+  zfsController:
+    annotations: {}
+    componentName: openebs-zfs-controller
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels:
+      name: openebs-zfs-controller
+    priorityClass:
+      create: true
+      name: zfs-csi-controller-critical
+    provisioner:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-provisioner
+        tag: v3.0.0
+      name: csi-provisioner
+    replicas: 1
+    resizer:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-resizer
+        tag: v1.2.0
+      name: csi-resizer
+    resources: {}
+    securityContext: {}
+    serviceName: openebs-zfs
+    snapshotController:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/snapshot-controller
+        tag: v4.0.0
+      name: snapshot-controller
+    snapshotter:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-snapshotter
+        tag: v4.0.0
+      name: csi-snapshotter
+    tolerations: []
+    updateStrategy:
+      type: RollingUpdate
+  zfsNode:
+    allowedTopologyKeys: All
+    annotations: {}
+    componentName: openebs-zfs-node
+    driverRegistrar:
+      image:
+        pullPolicy: IfNotPresent
+        registry: k8s.gcr.io/
+        repository: sig-storage/csi-node-driver-registrar
+        tag: v2.3.0
+      name: csi-node-driver-registrar
+    kubeletDir: /var/lib/kubelet/
+    labels: {}
+    nodeSelector: {}
+    podAnnotations: {}
+    podLabels: {}
+    priorityClass:
+      create: true
+      name: zfs-csi-node-critical
+    resources: {}
+    securityContext: {}
+    tolerations: []
+    updateStrategy:
+      type: RollingUpdate
+  zfsPlugin:
+    image:
+      pullPolicy: IfNotPresent
+      registry: null
+      repository: openebs/zfs-driver
+      tag: 2.1.0
+    name: openebs-zfs-plugin
+

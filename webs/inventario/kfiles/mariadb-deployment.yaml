@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mariadb-deployment
+  namespace: inventario
+spec:
+  replicas: 1
+  serviceName: mariadb-service
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:10.7
+          envFrom:
+            - configMapRef:
+                name: mariadb-config
+          volumeMounts:
+            - name: mariadb-data
+              mountPath: /var/lib/mysql
+              subPath: mysql
+      volumes:
+        - name: mariadb-data
+          persistentVolumeClaim:
+            claimName: pvc-mariadb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb-service
+  namespace: inventario
+spec:
+  selector:
+    app: mariadb
+  ports:
+    - protocol: TCP
+      port: 3306
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-config
+  namespace: inventario
+data:
+  MARIADB_ROOT_PASSWORD: "glpi@22"
+  MARIADB_DATABASE: "glpidb"
+  MARIADB_USER: "glpi"
+  MARIADB_PASSWORD: "glpi@22"
+

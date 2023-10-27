@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-glpi
+  namespace: inventario
+  labels:
+    app: glpi
+    owner: agarces
+    name: pvc-glpi
+spec:
+  storageClassName: "openebs-hostpath"
+  volumeName: pv-glpi
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-mariadb
+  namespace: inventario
+  labels:
+    app: mariadb
+    owner: agarces
+    name: pvc-mariadb
+spec:
+  storageClassName: "openebs-hostpath"
+  volumeName: pv-mariadb
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
