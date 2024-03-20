@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: grafana
+  namespace: grafana
+spec:
+  selector:
+    app: grafana
+  ports:
+  - port: 3000
+    targetPort: 3000
